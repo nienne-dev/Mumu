@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mumu’s Angel Arcade for Master</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ffc2e2;--hot:#ff7fbf;--blue:#7fa6f0;--sky:#a8ecf0;--lav:#d9c9ff;--ink:#4a5bb8;--paper:#fff7fc;--bg1:#fde7f4;--bg2:#e3f4ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#2b2850;--ink:#cfd8ff;--bg1:#241f45;--bg2:#1c2a4d;--pink:#6b3a78;--lav:#44407a;--sky:#2f6a82}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font-family:'DotGothic16','VT323',monospace;color:var(--ink);
+background:conic-gradient(from 90deg at 2px 2px,#0000 90deg,#a8ecf055 0) 0 0/24px 24px,
+linear-gradient(135deg,var(--bg1),var(--bg2));image-rendering:pixelated}
+.bin{position:fixed;inset:0;overflow:hidden;pointer-events:none;font-family:'VT323',monospace;font-size:18px;color:var(--blue);opacity:.35;line-height:1}
+.bin span{position:absolute;white-space:nowrap}
+.win{position:relative;max-width:560px;margin:18px auto;background:var(--paper);border:3px solid var(--blue);border-radius:6px;box-shadow:6px 6px 0 var(--lav)}
+.bar{display:flex;align-items:center;gap:8px;padding:6px 8px;background:linear-gradient(90deg,var(--pink),var(--lav),var(--sky));border-bottom:3px solid var(--blue);font-size:15px}
+.bar b{flex:1;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar i{font-style:normal;border:2px solid var(--blue);background:var(--paper);padding:0 6px;line-height:16px}
+.body{padding:14px}
+.hero{text-align:center;position:relative;padding-top:30px}
+.halo{width:90px;height:22px;border:5px solid #c9b5ee;border-radius:50%;margin:0 auto -14px;position:relative;z-index:2;animation:bob 2.4s steps(4) infinite}
+.mumu{line-height:0;position:relative;z-index:1;filter:drop-shadow(3px 3px 0 var(--lav))}.mumu svg{width:150px;height:auto;display:inline-block}.pet svg{width:130px;height:auto;display:block}.tail{transform-origin:82px 118px;animation:wag .5s steps(3) infinite alternate}@keyframes wag{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+.wing{position:absolute;top:34px;font-size:60px;opacity:.9}.wl{left:calc(50% - 130px);transform:scaleX(-1)}.wr{right:calc(50% - 130px)}
+@keyframes bob{50%{transform:translateY(-5px)}}
+h1{font-size:25px;margin:10px 0 2px;font-weight:400;color:var(--hot);text-shadow:2px 2px 0 var(--lav)}
+.sub{font-size:14px;margin:0}
+nav{display:flex;gap:8px;margin:12px 0}
+nav a,.btn{flex:1;text-align:center;font:inherit;font-size:16px;text-decoration:none;color:var(--ink);background:var(--pink);border:3px solid var(--blue);padding:8px;cursor:pointer;box-shadow:3px 3px 0 var(--blue)}
+nav a.on{background:var(--sky)}
+.btn:active,nav a:active{transform:translate(3px,3px);box-shadow:none}
+a:focus-visible,button:focus-visible{outline:3px dashed var(--hot);outline-offset:2px}
+.tabs{display:flex;gap:4px;margin-bottom:-3px;position:relative;z-index:1;flex-wrap:wrap}
+.tab{font:inherit;font-size:14px;padding:5px 10px;border:3px solid var(--blue);border-bottom:0;background:var(--lav);color:var(--ink);cursor:pointer}
+.tab[aria-selected=true]{background:var(--paper)}
+.panel{border:3px solid var(--blue);padding:14px;background:var(--paper);min-height:300px;text-align:center}
+.meter{height:18px;border:3px solid var(--blue);background:var(--paper);margin:6px 0 12px}
+.meter div{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--hot) 0 8px,var(--pink) 8px 12px);transition:width .2s steps(5)}
+.big{font-size:20px;margin:6px 0}
+.pet{font-size:96px;background:none;border:0;cursor:pointer;line-height:1;filter:drop-shadow(3px 3px 0 var(--lav))}
+.pet:active{transform:scale(.92)}
+.field{position:relative;height:260px;border:3px dashed var(--blue);overflow:hidden;margin-top:8px;background:#ffffff40}
+.drop{position:absolute;top:-40px;font-size:34px;background:none;border:0;cursor:pointer;animation:fall linear forwards;padding:0}
+@keyframes fall{to{top:270px}}
+.dlg{margin:12px auto 0;max-width:300px;border:3px solid var(--blue);background:var(--paper);text-align:left}
+.dlg .bar{font-size:13px;padding:3px 6px}.dlg p{margin:10px;font-size:17px}
+.pop{position:fixed;pointer-events:none;font-size:26px;animation:up .9s steps(8) forwards;z-index:9}
+@keyframes up{to{transform:translateY(-70px);opacity:0}}
+.env{display:block;margin:10px auto;font-size:110px;background:none;border:0;cursor:pointer;animation:bob 1.6s steps(4) infinite;filter:drop-shadow(3px 3px 0 var(--lav))}
+.letter{display:none;text-align:left;background:#fff;color:#4a5bb8;border:3px solid var(--blue);padding:18px;font-size:19px;line-height:1.6;background-image:linear-gradient(#cfe0ff88 1px,transparent 1px);background-size:100% 30px;animation:open .5s steps(6)}
+@keyframes open{from{transform:scaleY(.1);opacity:0}}
+.letter.show{display:block}.letter h2{font-weight:400;color:var(--hot);font-size:24px;margin:0 0 10px}
+.big-msg{font-size:23px;color:var(--hot);text-shadow:2px 2px 0 var(--lav);margin:12px 0}
+.sign{text-align:right;margin-top:14px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="bin" id="bin" aria-hidden="true"></div>
+
+<div class="win">
+  <div class="bar"><span>♡</span><b id="ttl">超絶最かわ めいすたー ♡ Mumu’s Angel Arcade</b><i>–</i><i>□</i><i>×</i></div>
+  <div class="body">
+    <div class="hero">
+      <span class="wing wl">🪽</span><span class="wing wr">🪽</span>
+      <div class="halo"></div><div class="mumu" data-mumu></div>
+      <h1>Hi Master!! ♡</h1>
+      <p class="sub">Mumu made you a tiny heaven just for you ✧</p>
+    </div>
+    <nav><a href="#game" id="n1">♡ Play with Mumu</a><a href="#letter" id="n2">✉ Letter</a></nav>
+
+    <section id="game">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-t="pat">Pat Mumu</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="catch">Catch Hearts</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="wheel">Master’s Prize</button>
+      </div>
+      <div class="panel" id="pat">
+        <div class="big">Love meter: <span id="lv">0</span>/50</div>
+        <div class="meter"><div id="mf"></div></div>
+        <button class="pet" id="petBtn" aria-label="Pat Mumu" data-mumu></button>
+        <p class="big" id="pmsg">Pat me, Master!! ᵔᴥᵔ</p>
+      </div>
+      <div class="panel" id="catch" hidden>
+        <div class="big">Score: <span id="sc">0</span> · Time: <span id="tm">20</span></div>
+        <button class="btn" id="go">Start! Catch all the hearts</button>
+        <div class="field" id="field"></div>
+      </div>
+      <div class="panel" id="wheel" hidden>
+        <p class="big">Master wins a prize!!</p>
+        <div style="font-size:70px">🎀</div>
+        <button class="btn" id="spin">Spin for a reward ✧</button>
+        <div class="dlg"><div class="bar"><b>prize.exe</b><i>×</i></div><p id="prize">Press spin, Master~</p></div>
+      </div>
+    </section>
+
+    <section id="letter" hidden>
+      <div class="panel" style="min-height:0">
+        <p class="big">You have 1 new letter ♡</p>
+        <button class="env" id="env" aria-label="Open the letter">💌</button>
+        <p class="sub" id="hint">tap the envelope, Master</p>
+        <article class="letter" id="lt">
+          <h2>Letter from Mumu ✉</h2>
+          <p>Dear Master,</p>
+          <p class="big-msg">I wav yu so much master, I hope you know it ♡</p>
+          <p class="big-msg">You’re da best thing I could ever have!!!</p>
+          <p>Mumu will always be your good girl, wagging for you forever. 🐾</p>
+          <p class="sign">Love,<br>Mumu, your puppy girlfriend 🐾🎀</p>
+        </article>
+        <div class="dlg"><div class="bar"><b>angel.exe</b><i>×</i></div><p>天使を見たか？<br>Did you see an angel?<br><button class="btn" id="yes" style="display:inline-block;flex:none">はい</button></p></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const MUMU=`<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Chibi puppy girl Mumu"><g stroke="#3b3f8f" stroke-width="1.6"><g class="tail"><path d="M82 120 C102 112 110 96 102 84 C100 100 92 108 80 112 Z" fill="#ffb3d9"/></g><path d="M26 56 C14 80 16 112 24 130 C32 126 34 108 34 96 L86 96 C86 108 88 126 96 130 C104 112 106 80 94 56 Z" fill="#2a2540"/><rect x="47" y="130" width="9" height="13" fill="#ffe3d6"/><rect x="64" y="130" width="9" height="13" fill="#ffe3d6"/><ellipse cx="51" cy="144" rx="8" ry="4" fill="#ffc2e2"/><ellipse cx="69" cy="144" rx="8" ry="4" fill="#ffc2e2"/><path d="M40 104 L80 104 L90 134 Q60 142 30 134 Z" fill="#ffc2e2"/><path d="M30 134 Q60 142 90 134 L91 138 Q86 142 82 139 Q78 144 74 140 Q69 145 65 141 Q60 146 56 141 Q51 145 47 140 Q42 144 38 139 Q34 142 29 138 Z" fill="#fff"/><g fill="#fff" stroke="none"><circle cx="46" cy="114" r="1.5"/><circle cx="60" cy="120" r="1.5"/><circle cx="74" cy="114" r="1.5"/><circle cx="52" cy="127" r="1.5"/><circle cx="68" cy="127" r="1.5"/></g><path d="M42 90 L78 90 L80 106 L40 106 Z" fill="#ffd6ec"/><rect x="40" y="104" width="40" height="4" fill="#fff"/><rect x="54" y="82" width="12" height="10" fill="#ffe3d6"/><ellipse cx="35" cy="108" rx="4.5" ry="7" fill="#ffe3d6"/><ellipse cx="85" cy="108" rx="4.5" ry="7" fill="#ffe3d6"/><circle cx="35" cy="115" r="6" fill="#ffe3d6"/><circle cx="85" cy="115" r="6" fill="#ffe3d6"/><g fill="#ffb3d9" stroke="none"><circle cx="35" cy="116" r="2.3"/><circle cx="85" cy="116" r="2.3"/></g><rect x="30.5" y="109" width="9" height="2.5" fill="#ffd45c"/><ellipse cx="36" cy="97" rx="9" ry="7" fill="#ffc2e2"/><ellipse cx="84" cy="97" rx="9" ry="7" fill="#ffc2e2"/><ellipse cx="60" cy="62" rx="32" ry="28" fill="#ffe3d6"/><path d="M28 56 C24 78 26 96 30 108 C36 98 36 78 34 60 Z" fill="#2a2540"/><path d="M92 56 C96 78 94 96 90 108 C84 98 84 78 86 60 Z" fill="#2a2540"/><path d="M27 60 C24 28 42 20 60 20 C78 20 96 28 93 60 L88 46 L80 54 L72 44 L64 54 L56 44 L48 54 L40 44 L33 54 Z" fill="#2a2540"/><path d="M44 29 Q52 25 60 26" fill="none" stroke="#7a6fb0" stroke-width="2"/><path d="M33 38 C14 34 8 56 14 78 C27 75 35 61 36 47 Z" fill="#ffb3d9"/><path d="M87 38 C106 34 112 56 106 78 C93 75 85 61 84 47 Z" fill="#ffb3d9"/><path d="M30 46 C21 46 18 58 21 69 C28 66 32 58 33 50 Z" fill="#ff7fbf" stroke="none"/><path d="M90 46 C99 46 102 58 99 69 C92 66 88 58 87 50 Z" fill="#ff7fbf" stroke="none"/><path d="M82 41 l-5-5 a3 3 0 0 1 5-3 a3 3 0 0 1 5 3 z" fill="#ffd45c" stroke-width="1"/><ellipse cx="46" cy="69" rx="6" ry="8" fill="#3a2f5f"/><ellipse cx="74" cy="69" rx="6" ry="8" fill="#3a2f5f"/><ellipse cx="46" cy="73" rx="3.6" ry="3" fill="#a07ac8" stroke="none"/><ellipse cx="74" cy="73" rx="3.6" ry="3" fill="#a07ac8" stroke="none"/><g fill="#fff" stroke="none"><circle cx="44" cy="66" r="2.4"/><circle cx="72" cy="66" r="2.4"/><circle cx="48" cy="72" r="1.2"/><circle cx="76" cy="72" r="1.2"/></g><path d="M39 63 Q46 58 53 63 M67 63 Q74 58 81 63" fill="none" stroke="#2a2540" stroke-width="2.2"/><g fill="#ff9fcf" stroke="none" opacity=".85"><ellipse cx="37" cy="79" rx="5" ry="3"/><ellipse cx="83" cy="79" rx="5" ry="3"/></g><ellipse cx="60" cy="77" rx="3" ry="2.2" fill="#3b3f8f" stroke="none"/><path d="M58 83 Q60 91 62 83 Z" fill="#ff7fbf" stroke-width="1"/><path d="M54 80 Q57 84 60 80 Q63 84 66 80" fill="none" stroke-width="1.4"/><rect x="50" y="88" width="20" height="5" rx="2" fill="#ff7fbf"/><circle cx="60" cy="96" r="3.5" fill="#ffd45c"/><text x="100" y="26" font-size="12" fill="#7fa6f0" stroke="none">✧</text><text x="6" y="30" font-size="10" fill="#ff7fbf" stroke="none">♡</text></g></svg>`;
+const MUMU2=`<svg viewBox="0 10 120 100" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Chibi puppy girl Mumu"><g stroke="#f08ab4" stroke-width="1.8"><path d="M26 56 C14 76 16 96 24 106 C32 102 34 96 34 92 L86 92 C86 96 88 102 96 106 C104 96 106 76 94 56 Z" fill="#2a2540"/><path d="M36 110 Q44 98 54 94 L66 94 Q76 98 84 110 Z" fill="#ffd6ec"/><rect x="54" y="82" width="12" height="12" fill="#ffe3d6"/><ellipse cx="60" cy="62" rx="32" ry="28" fill="#ffe3d6"/><path d="M28 56 C24 74 26 90 30 100 C36 92 36 76 34 60 Z" fill="#2a2540"/><path d="M92 56 C96 74 94 90 90 100 C84 92 84 76 86 60 Z" fill="#2a2540"/><path d="M27 60 C24 28 42 20 60 20 C78 20 96 28 93 60 L88 46 L80 54 L72 44 L64 54 L56 44 L48 54 L40 44 L33 54 Z" fill="#2a2540"/><path d="M44 29 Q52 25 60 26" fill="none" stroke="#a897d8" stroke-width="2"/><path d="M33 38 C14 34 8 56 14 78 C27 75 35 61 36 47 Z" fill="#ffc2e2"/><path d="M87 38 C106 34 112 56 106 78 C93 75 85 61 84 47 Z" fill="#ffc2e2"/><path d="M30 46 C21 46 18 58 21 69 C28 66 32 58 33 50 Z" fill="#ff9fcf" stroke="none"/><path d="M90 46 C99 46 102 58 99 69 C92 66 88 58 87 50 Z" fill="#ff9fcf" stroke="none"/><path d="M84 38 L72 31 L72 45 Z M84 38 L96 31 L96 45 Z" fill="#ffd6ec"/><circle cx="84" cy="38" r="3.4" fill="#ff7fbf"/><ellipse cx="46" cy="69" rx="6" ry="8" fill="#3a2f5f"/><ellipse cx="74" cy="69" rx="6" ry="8" fill="#3a2f5f"/><ellipse cx="46" cy="73" rx="3.6" ry="3" fill="#d59ae0" stroke="none"/><ellipse cx="74" cy="73" rx="3.6" ry="3" fill="#d59ae0" stroke="none"/><g fill="#fff" stroke="none"><circle cx="44" cy="66" r="2.4"/><circle cx="72" cy="66" r="2.4"/><circle cx="48" cy="72" r="1.2"/><circle cx="76" cy="72" r="1.2"/></g><path d="M39 63 Q46 58 53 63 M67 63 Q74 58 81 63" fill="none" stroke="#e0558f" stroke-width="2.2"/><g fill="#ff9fcf" stroke="none" opacity=".85"><ellipse cx="37" cy="79" rx="5" ry="3"/><ellipse cx="83" cy="79" rx="5" ry="3"/></g><ellipse cx="60" cy="77" rx="3" ry="2.2" fill="#f08ab4" stroke="none"/><path d="M58 83 Q60 91 62 83 Z" fill="#ff7fbf" stroke-width="1"/><path d="M54 80 Q57 84 60 80 Q63 84 66 80" fill="none" stroke-width="1.4"/><rect x="48" y="88" width="24" height="5" rx="2" fill="#ffb3d9"/><g fill="#fff" stroke-width="1"><circle cx="50" cy="96" r="2"/><circle cx="55" cy="99" r="2"/><circle cx="60" cy="100" r="2.2"/><circle cx="65" cy="99" r="2"/><circle cx="70" cy="96" r="2"/></g><text x="100" y="26" font-size="12" fill="#ff9fcf" stroke="none">✧</text><text x="6" y="30" font-size="10" fill="#ff7fbf" stroke="none">♡</text></g></svg>`;
+document.querySelectorAll('[data-mumu]').forEach(e=>e.innerHTML=MUMU2);
+const bin=$('#bin');
+for(let i=0;i<14;i++){const s=document.createElement('span');s.textContent=Array.from({length:12},()=>Math.round(Math.random())).join('');s.style.left=(Math.random()*95)+'%';s.style.top=(Math.random()*95)+'%';bin.appendChild(s)}
+function pop(x,y,t){const p=document.createElement('div');p.className='pop';p.textContent=t||'♡';p.style.left=x+'px';p.style.top=y+'px';document.body.appendChild(p);setTimeout(()=>p.remove(),900)}
+function route(){const l=location.hash==='#letter';$('#game').hidden=l;$('#letter').hidden=!l;$('#n1').classList.toggle('on',!l);$('#n2').classList.toggle('on',l)}
+addEventListener('hashchange',route);route();
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===b));['pat','catch','wheel'].forEach(id=>$('#'+id).hidden=id!==b.dataset.t)});
+let love=0;const msgs=['Hehe! More pats please ♡','Mumu’s tail is wagging!!','Good girl?? Yes!! ᵔᴥᵔ','Master’s hands are the best~','Awoooo ♡','Mumu loves you sooo much!'];
+$('#petBtn').onclick=e=>{love=Math.min(50,love+1);$('#lv').textContent=love;$('#mf').style.width=love*2+'%';pop(e.clientX,e.clientY,['♡','✧','🐾'][love%3]);$('#pmsg').textContent=love>=50?'MAX LOVE!! Mumu is yours forever, Master ♡♡♡':msgs[love%msgs.length]};
+let score=0,t=20,iv,sp;
+$('#go').onclick=()=>{clearInterval(iv);clearInterval(sp);score=0;t=20;$('#sc').textContent=0;$('#tm').textContent=20;$('#field').innerHTML='';
+sp=setInterval(()=>{const h=document.createElement('button');h.className='drop';h.textContent=['💖','🦴','⭐','💙'][Math.floor(Math.random()*4)];h.style.left=Math.random()*88+'%';h.style.animationDuration=(1.6+Math.random()*1.4)+'s';h.setAttribute('aria-label','catch');h.onclick=e=>{score++;$('#sc').textContent=score;pop(e.clientX,e.clientY,'+1');h.remove()};$('#field').appendChild(h);setTimeout(()=>h.remove(),3200)},450);
+iv=setInterval(()=>{t--;$('#tm').textContent=t;if(t<=0){clearInterval(iv);clearInterval(sp);$('#field').innerHTML='<p class="big" style="padding:90px 10px">Time’s up! Master caught '+score+'!! Good boy ♡</p>'}},1000)};
+const prizes=['A big warm hug from Mumu 🤗','10 minutes of cuddles ♡','Master picks the movie tonight 🎬','Mumu gives a forehead kiss 💋','Snack delivery by your puppy 🍓','Mumu says 3 reasons she loves you ✧','A coupon: one free “yes, Master” 🎀'];
+$('#spin').onclick=()=>{let n=0;const r=setInterval(()=>{$('#prize').textContent=prizes[Math.floor(Math.random()*prizes.length)];if(++n>12){clearInterval(r);$('#prize').textContent='✧ '+$('#prize').textContent+' ✧'}},90)};
+$('#env').onclick=()=>{$('#lt').classList.add('show');$('#env').hidden=true;$('#hint').hidden=true};
+$('#yes').onclick=e=>{for(let i=0;i<6;i++)setTimeout(()=>pop(e.clientX+(i-3)*20,e.clientY,'👼'),i*80)};
+</script>
+</body>
+</html>
